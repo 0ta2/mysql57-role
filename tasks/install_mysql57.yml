@@ -1,0 +1,17 @@
+---
+
+- name: MySQL community repository addition
+  yum:
+    name: "{{ mysql57_repo }}"
+    state: present
+
+- name: Install mysql
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ mysql57_install }}"
+
+- name: Start mysql
+  service:
+    name: mysqld
+    state: started
+    enabled: yes

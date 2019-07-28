@@ -1,0 +1,41 @@
+---
+
+- name: /root/.my.cnf file check
+  stat:
+    path: /root/.my.cnf
+  changed_when: False # changedを強制的にさせない
+  ignore_errors: True # エラーを無視する
+  register: mycnf_exists
+
+- block:
+  - name: Get tmp password
+    shell: |
+      cat /var/log/mysqld.log  | grep 'password is generated' | awk -F'root@localhost: ' '{print $2}'
+    changed_when: False # changedを強制的にさせない
+    register: temppassword
+
+  - name: Set new password
+    shell: |
+      /usr/bin/mysqladmin -u root -p'{{ temppassword.stdout }}' password '{{ mysql57_password }}'
+
+  - name: Create /root/.my.cnf
+    template:
+      src: my.cnf.j2
+      dest: /root/.my.cnf
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: delete anonymous user
+    mysql_user:
+      name: ""
+      state: absent
+      login_user: root
+
+  - name: Remove test database
+    mysql_db:
+      name: test
+      state: absent
+      login_user: root
+
+  when: mycnf_exists.stat.exists == false
