@@ -1,16 +1,14 @@
 ---
-
 - name: MySQL community repository addition
   yum:
-    name: "{{ mysql57_repo }}"
+    name: "{{ mysql_community_noarch_rpm }}"
     state: present
 
-- name: Install mysql
+- name: Install MySQL Commnuity Server
   yum:
-    name: "{{ item }}"
-  with_items: "{{ mysql57_install }}"
+    name: "{{ mysql_package_list }}"
 
-- name: Start mysql
+- name: Start MySQL
   service:
     name: mysqld
     state: started

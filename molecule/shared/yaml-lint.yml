@@ -14,3 +14,7 @@ rules:
     max: 200
     level: warning
   truthy: disable
+comments:
+  require-starting-space: false
+indentation:
+  indent-sequences: false

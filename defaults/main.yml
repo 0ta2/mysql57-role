@@ -1,8 +1,10 @@
-mysql57_repo: http://dev.mysql.com/get/mysql57-community-release-el{{ ansible_distribution_major_version }}-7.noarch.rpm
+---
+mysql_community_noarch_rpm:
+  - https://dev.mysql.com/get/mysql80-community-release-el{{ ansible_distribution_major_version }}-3.noarch.rpm
 
-mysql57_install:
+mysql_package_list:
   - mysql-devel
   - mysql-server
   - MySQL-python
 
-mysql57_password: 8/6/4r&&B3R2
+mysql_root_password: mysql_root_password2019

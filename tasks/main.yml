@@ -1,7 +1,2 @@
 ---
-
-- include: install_mysql57.yml
-  tags: install_mysql57
-
-- include: mysql_initial_configuration.yml
-  tags: mysql_initial_configuration
+- include_tasks: install_mysql57.yml
