@@ -1,0 +1,7 @@
+---
+package:
+  mysql-community-server:
+  versions:
+    - 5.7.27
+  installed: true
+ skip: false

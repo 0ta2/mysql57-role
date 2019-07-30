@@ -12,6 +12,12 @@ platforms:
     image: centos:7
     env:
       ENVIRONMENT: ${ENVIRONMENT}
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   playbooks:

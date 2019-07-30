@@ -6,9 +6,11 @@
 
 - name: Install MySQL Commnuity Server
   yum:
-    name: "{{ mysql_package_list }}"
+    name: "{{ mysql_install_package_list }}"
+    disablerepo: mysql80-community
+    enablerepo: mysql57-community
 
-- name: Start MySQL
+- name: Start service mysqld
   service:
     name: mysqld
     state: started
