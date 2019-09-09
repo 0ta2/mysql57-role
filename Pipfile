@@ -16,7 +16,7 @@ requests = "*"
 python_version = "3.5"
 
 [scripts]
-test = "molecule test"
-check = "molecule --debug check"
-test-local = "molecule test -s local"
-check-local = "molecule --debug check -s local"
+test = "molecule --base-config ./molecule/docker/molecule.yml --env-file ./molecule/shared/.env.yml test --scenario-name docker"
+syntax = "molecule --base-config ./molecule/docker/molecule.yml --env-file ./molecule/shared/.env.yml --debug syntax --scenario-name docker"
+test-vagrant = "molecule --base-config ./molecule/docker/molecule.yml --env-file ./molecule/shared/.env.yml test --scenario-name docker"
+syntax-vagrant = "molecule --base-config ./molecule/docker/molecule.yml --env-file ./molecule/shared/.env.yml --debug syntax --scenario-name docker"
