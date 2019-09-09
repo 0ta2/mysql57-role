@@ -36,33 +36,11 @@ jobs:
 
       - run: pipenv run test
 
-  test_common:
-    <<: *DEFAULTS
-    steps:
-      - checkout
-      - *RESTORE_CACHE
-
-      - *INSTALL_ANSIBLE_RELATED_PACKAGES
-
-      - save_cache:
-          key: CACHE_KEY
-          paths:
-            - .venv
-
-      - run:
-          command: |
-            cd roles/common
-            pipenv run test
-
 workflows:
   version: 2
   test_suites:
     jobs:
       - test_playbook:
-          filters:
-            branches:
-              ignore: /.\.tmp/
-      - test_common:
           filters:
             branches:
               ignore: /.\.tmp/
