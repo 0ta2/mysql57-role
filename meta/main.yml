@@ -2,15 +2,16 @@
 dependencies: []
 
 galaxy_info:
-  author: Tatsuya Suzuki
-  description: MySQL Server
+  author: 0ta2
+  description: MySQL server for RHEL/CentOS.
   license: "license (BSD, MIT)"
   min_ansible_version: 2.4
   platforms:
     - name: EL
       versions:
         - 7
-    - name: Archlinux
-      versions:
-        - all
-  galaxy_tags: []
+  alaxy_tags:
+    - database
+    - mysql
+    - db
+    - sql
