@@ -1,0 +1,16 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: ${MOLECULE_DISTRO:-centos:7}
+    privileged: True
+    command: /sbin/init
+provisioner:
+  name: ansible
+  ansible_args:
+    - --extra-vars="mysql_community_enable=${MYSQL_COMMUNITY_ENABLE:-false}"
+verifier:
+  name: ansible

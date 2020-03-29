@@ -1,0 +1,68 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Check Installed a MySQL package.
+    package_facts:
+      manager: auto
+
+  - name: Test if MySQL package is installed.
+    assert:
+      that:
+        - "'mysql-community-server' in ansible_facts.packages"
+    when: mysql_community_enable
+
+  - name: Test if MySQL package is installed.
+    assert:
+      that:
+        - "'mysql' in ansible_facts.packages"
+    when: ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora'
+
+  - name: Test if MySQL package is installed.
+    assert:
+      that:
+        - "'mysql-server' in ansible_facts.packages"
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Check a mysql conf directory.
+    stat:
+      patH: "/etc/mysql"
+    register: "_etc_mysql"
+
+  - name: Test if mysql conf directory is exists.
+    assert:
+      that:
+        - _etc_mysql.stat.exists
+        - _etc_mysql.stat.isdir
+        - _etc_mysql.stat.mode == "0755"
+        - _etc_mysql.stat.gr_name == "root"
+        - _etc_mysql.stat.pw_name == "root"
+
+  - name: Check a mysql conf file.
+    stat:
+      patH: "/etc/mysql/my.cnf"
+      register: "_my_cnf"
+
+  - name: Test if mysql conf file is exists.
+    assert:
+      that:
+        - _etc_mysql.stat.exists
+        - _etc_mysql.stat.isreg
+        - _etc_mysql.stat.mode == "0644"
+        - _etc_mysql.stat.gr_name == "root"
+        - _etc_mysql.stat.pw_name == "root"
+
+  - name: Check a /root/.my.cnf conf file.
+    stat:
+      patH: "/root/.my.cnf"
+      register: "_root_my_cnf
+
+  - name: Test if /root/.my.cnf conf file is exists.
+    assert:
+      that:
+        - _root_my_cnf.stat.exists
+        - _root_my_cnf.stat.isreg
+        - _root_my_cnf.stat.mode == "0600"
+        - _root_my_cnf.stat.gr_name == "root"
+        - _root_my_cnf.stat.pw_name == "root"
+

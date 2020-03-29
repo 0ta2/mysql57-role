@@ -1,0 +1,12 @@
+---
+- name: Install the MySQL Server.
+  package:
+    name: "mysql"
+    state: "present"
+  when: ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora'
+
+- name: Install the MySQL Server.
+  package:
+    name: "mysql-server"
+    state: "present"
+  when: ansible_distribution == 'Ubuntu'

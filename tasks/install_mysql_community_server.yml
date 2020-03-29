@@ -1,0 +1,45 @@
+---
+- name: Add a community repository for MySQL community for CetnOS.
+  package:
+    name: "https://dev.mysql.com/get/mysql80-community-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: "present"
+  when:  ansible_distribution == "CentOS"
+
+- name: Add a community repository for MySQL community for Fedora.
+  package:
+    name: "https://dev.mysql.com/get/mysql80-community-release-fc{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: "present"
+  when:  ansible_distribution == "Fedora"
+
+- name: Add a community repository for MySQL community for Ubuntu.
+  package:
+    name: "https://dev.mysql.com/get/mysql-apt-config_0.8.14-1_all.deb"
+    state: "present"
+  when:  ansible_distribution == "Ubuntu"
+
+- name: Install a MySQL Server.
+  package:
+    name: "mysql-community-server"
+    state: "present"
+
+- name: Create a mysql conf directory.
+  file:
+    path: "/etc/mysql"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: Copy a /etc/mysql/my.cnf file.
+  template:
+    src: "my.cnf.j2"
+    dest: "/etc/mysql/my.cnf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Start a MySQL Server.
+  service:
+    name: "mysqld"
+    state: "started"
+    enabled: "yes"

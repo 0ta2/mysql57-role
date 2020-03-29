@@ -1,17 +1,21 @@
----
-dependencies: []
-
 galaxy_info:
   author: 0ta2
-  description: MySQL server for RHEL/CentOS.
-  license: "license (BSD, MIT)"
-  min_ansible_version: 2.4
+  description: Setup MySQL Server
+  license: 'license (MIT)'
+  min_ansible_version: 2.9
   platforms:
     - name: EL
       versions:
         - 7
-  alaxy_tags:
-    - database
+        - 8
+    - name: Fedora
+      versions:
+        - 30
+        - 31
+    - name: Ubuntu
+      versions:
+        - eoan
+        - bionic
+  galaxy_tags:
     - mysql
     - db
-    - sql

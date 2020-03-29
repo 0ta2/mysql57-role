@@ -1,0 +1,28 @@
+---
+# /root/.my.ncf が存在しない場合は､初回だと判断する
+- name: Check the /root/.my.cnf file.
+  stat:
+    path: "/root/.my.cnf"
+  changed_when: 'false'     # changedを強制的にさせない
+  ignore_errors: 'true'     # エラーを無視する
+  register: "_mycnf_exists"
+
+- block:
+    - name: Get the password for tmp.
+      shell: |
+        grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+      register: "_tmp_password"
+
+    - name: Set a new password.
+      shell: |
+        /usr/bin/mysqladmin -u root -p'{{ _tmp_password.stdout }}' password '{{ mysql_root_password }}'
+
+    # 初期パスワードを変更したので､ /root/.my.ncf ファイルを設置する
+    - name: Copy a /root/.my.cnf file.
+      template:
+        src: ".my.cnf.j2"
+        dest: "/root/.my.cnf"
+        owner: "root"
+        group: "root"
+        mode: "0600"
+  when: not _mycnf_exists.stat.exists

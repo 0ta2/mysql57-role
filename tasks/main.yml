@@ -1,4 +1,18 @@
 ---
-- include_tasks: setup_mysql.yml
-- include_tasks: configure_mysql.yml
-- include_tasks: secure_installation.yml
+- name: Requires the MySQL-python.
+  package:
+    name: "MySQL-python"
+    state: present
+
+- name: Install the OS default MySQL package.
+  import_tasks: install_os_default_mysql.yml
+  when: mysql_community_enable | bool
+
+- name: Install the MySQL Community Edition.
+  import_tasks: install_mysql_community_server.yml
+
+- name: Setup the MySQL Server.
+  import_tasks: setup_mysql_server.yml
+
+- name: Setup the security settings for the MySQL Server.
+  import_tasks: setup_security_settings.yml
